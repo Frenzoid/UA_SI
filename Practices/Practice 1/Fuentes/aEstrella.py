@@ -21,7 +21,6 @@ def aEstrella(mapa, casilla_origen, casilla_destino, camino, heuristica):
 
     # Hora de la generacion y exploración. Iteramos hasta hallar el nodo destino.
     while explorado:
-        print(len(revisado))
 
         # De los nodos explorados, sacamos el nodo con menor f
         nodo_actual = min(explorado, key=lambda o: o.f)

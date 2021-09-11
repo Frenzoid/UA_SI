@@ -73,5 +73,5 @@ def leer(archivo):
 
 # ---------------------------------------------------------------------
 if __name__ == "__main__":
-    mapa = Mapa('mapa.txt')
+    mapa = Mapa('../Mundos/mapa.txt')
     print(mapa)

@@ -85,7 +85,7 @@ def main():
     reloj = pygame.time.Clock()
 
     if not file:  # si no se elige un fichero coge el mapa por defecto
-        file = 'mapa.txt'
+        file = '../Mundos/mapa.txt'
 
     mapa = Mapa(file)
     origen = mapa.getOrigen()
@@ -97,10 +97,10 @@ def main():
     screen = pygame.display.set_mode(dimension)
     pygame.display.set_caption("Practica 1")
 
-    boton = pygame.image.load("boton.png").convert()
+    boton = pygame.image.load("./assets/boton.png").convert()
     boton = pygame.transform.scale(boton, [50, 30])
 
-    personaje = pygame.image.load("pig.png").convert()
+    personaje = pygame.image.load("./assets/pig.png").convert()
     personaje = pygame.transform.scale(personaje, [TAM, TAM])
 
     coste = -1
