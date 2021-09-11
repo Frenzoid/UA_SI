@@ -1,8 +1,12 @@
 import sys
 import pygame
 import tkinter
+import tkinter.filedialog
+
 from casilla import *
 from mapa import *
+from aEstrella import *
+from heuristicas import uniforme
 from pygame.locals import *
 
 
@@ -24,10 +28,10 @@ AMARILLO = (255, 255, 0)
 # Devuelve si una casilla del mapa se puede seleccionar como destino
 
 
-def bueno(mapi, pos):
+def bueno(mapa, pos):
     res = False
 
-    if mapi.getCelda(pos.getFila(), pos.getCol()) == 0:
+    if mapa.getCelda(pos.getFila(), pos.getCol()) == 0:
         res = True
 
     return res
@@ -35,11 +39,11 @@ def bueno(mapi, pos):
 # Devuelve si una posición de la ventana corresponde al mapa
 
 
-def esMapa(mapi, posicion):
+def esMapa(mapa, posicion):
     res = False
 
-    if posicion[0] > MARGEN and posicion[0] < mapi.getAncho()*(TAM+MARGEN)+MARGEN and \
-            posicion[1] > MARGEN and posicion[1] < mapi.getAlto()*(TAM+MARGEN)+MARGEN:
+    if posicion[0] > MARGEN and posicion[0] < mapa.getAncho()*(TAM+MARGEN)+MARGEN and \
+            posicion[1] > MARGEN and posicion[1] < mapa.getAlto()*(TAM+MARGEN)+MARGEN:
         res = True
 
     return res
@@ -47,22 +51,22 @@ def esMapa(mapi, posicion):
 # PDevuelve si se ha pulsado el botón. Posición del botón: 20, mapa.getAlto()*(TAM+MARGEN)+MARGEN+10]
 
 
-def pulsaBoton(mapi, posicion):
+def pulsaBoton(mapa, posicion):
     res = False
 
     if posicion[0] > 20 and posicion[0] < 70 and \
-       posicion[1] > mapi.getAlto()*(TAM+MARGEN)+MARGEN+10 and posicion[1] < MARGEN_INFERIOR+mapi.getAlto()*(TAM+MARGEN)+MARGEN:
+       posicion[1] > mapa.getAlto()*(TAM+MARGEN)+MARGEN+10 and posicion[1] < MARGEN_INFERIOR+mapa.getAlto()*(TAM+MARGEN)+MARGEN:
         res = True
 
     return res
 
 
 # Construye la matriz para guardar el camino
-def inic(mapi):
+def inic(mapa):
     cam = []
-    for i in range(mapi.alto):
+    for i in range(mapa.alto):
         cam.append([])
-        for j in range(mapi.ancho):
+        for j in range(mapa.ancho):
             cam[i].append('.')
 
     return cam
@@ -82,12 +86,12 @@ def main():
     if not file:  # si no se elige un fichero coge el mapa por defecto
         file = 'mapa.txt'
 
-    mapi = Mapa(file)
-    origen = mapi.getOrigen()
-    camino = inic(mapi)
+    mapa = Mapa(file)
+    origen = mapa.getOrigen()
+    camino = inic(mapa)
 
-    anchoVentana = mapi.getAncho()*(TAM+MARGEN)+MARGEN
-    altoVentana = MARGEN_INFERIOR+mapi.getAlto()*(TAM+MARGEN)+MARGEN
+    anchoVentana = mapa.getAncho()*(TAM+MARGEN)+MARGEN
+    altoVentana = MARGEN_INFERIOR+mapa.getAlto()*(TAM+MARGEN)+MARGEN
     dimension = [anchoVentana, altoVentana]
     screen = pygame.display.set_mode(dimension)
     pygame.display.set_caption("Practica 1")
@@ -111,27 +115,33 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 # obtener posición y calcular coordenadas matriciales
                 pos = pygame.mouse.get_pos()
-                colDestino = pos[0]//(TAM+MARGEN)
-                filDestino = pos[1]//(TAM+MARGEN)
-                casi = Casilla(filDestino, colDestino)
-                if pulsaBoton(mapi, pos):  # reinicializar
-                    origen = mapi.getOrigen()
+                colDestino = pos[0] // (TAM + MARGEN)
+                filDestino = pos[1] // (TAM + MARGEN)
+                casilla = Casilla(filDestino, colDestino)
+                if pulsaBoton(mapa, pos):  # reinicializar
+                    origen = mapa.getOrigen()
                     destino = Casilla(-1, -1)
-                    camino = inic(mapi)
+                    camino = inic(mapa)
                     coste = -1
                     primeraVez = True
-                elif esMapa(mapi, pos):
-                    if bueno(mapi, casi):
+                elif esMapa(mapa, pos):
+                    if bueno(mapa, casilla):
                         if not primeraVez:  # la primera vez el origen está en el mapa
                             origen = destino
                         else:
                             # se marca como libre la celda origen
-                            mapi.setCelda(int(origen.getFila()),
+                            mapa.setCelda(int(origen.getFila()),
                                           int(origen.getCol()), 0)
-                        destino = casi
-                        camino = inic(mapi)
+                        destino = casilla
+                        camino = inic(mapa)
+
+                        # Limite iteraciones, antes de darse por vencido.
+                        lim_iter = 5000
+
                         # llamar al A*
-                        #coste=aEstrella(mapi, origen, destino, camino)
+                        coste = aEstrella(
+                            mapa, origen, destino, camino, uniforme, lim_iter)
+
                         if coste == -1:
                             tkinter.messagebox.showwarning(
                                 title='Error', message='No existe un camino entre origen y destino')
@@ -145,13 +155,13 @@ def main():
         # limpiar pantalla
         screen.fill(NEGRO)
         # pinta mapa
-        for fil in range(mapi.getAlto()):
-            for col in range(mapi.getAncho()):
+        for fil in range(mapa.getAlto()):
+            for col in range(mapa.getAncho()):
                 # para que no quede negro el origen inicial
-                if mapi.getCelda(fil, col) == 2 and not primeraVez:
+                if mapa.getCelda(fil, col) == 2 and not primeraVez:
                     pygame.draw.rect(screen, BLANCO, [
                                      (TAM+MARGEN)*col+MARGEN, (TAM+MARGEN)*fil+MARGEN, TAM, TAM], 0)
-                if mapi.getCelda(fil, col) == 0:
+                if mapa.getCelda(fil, col) == 0:
                     if camino[fil][col] == '.':
                         pygame.draw.rect(screen, BLANCO, [
                                          (TAM+MARGEN)*col+MARGEN, (TAM+MARGEN)*fil+MARGEN, TAM, TAM], 0)
@@ -159,7 +169,7 @@ def main():
                         pygame.draw.rect(screen, AMARILLO, [
                                          (TAM+MARGEN)*col+MARGEN, (TAM+MARGEN)*fil+MARGEN, TAM, TAM], 0)
 
-                elif mapi.getCelda(fil, col) == 1:
+                elif mapa.getCelda(fil, col) == 1:
                     pygame.draw.rect(
                         screen, ROJO, [(TAM+MARGEN)*col+MARGEN, (TAM+MARGEN)*fil+MARGEN, TAM, TAM], 0)
 
@@ -170,13 +180,13 @@ def main():
         pygame.draw.rect(screen, VERDE, [
                          (TAM+MARGEN)*destino.getCol()+MARGEN, (TAM+MARGEN)*destino.getFila()+MARGEN, TAM, TAM], 0)
         # pinta boton
-        screen.blit(boton, [20, mapi.getAlto()*(TAM+MARGEN)+MARGEN+10])
+        screen.blit(boton, [20, mapa.getAlto()*(TAM+MARGEN)+MARGEN+10])
         # pinta coste
         if coste != -1:
             fuente = pygame.font.Font(None, 30)
             texto = fuente.render("Coste "+str(coste), True, AMARILLO)
             screen.blit(texto, [anchoVentana-120,
-                                mapi.getAlto()*(TAM+MARGEN)+MARGEN+15])
+                                mapa.getAlto()*(TAM+MARGEN)+MARGEN+15])
 
         # actualizar pantalla
         pygame.display.flip()
