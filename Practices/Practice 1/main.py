@@ -7,6 +7,7 @@ from casilla import *
 from mapa import *
 from aEstrella import *
 from heuristicas import uniforme
+from heuristicas import manhattan
 from pygame.locals import *
 
 

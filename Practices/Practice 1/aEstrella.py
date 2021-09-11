@@ -73,7 +73,8 @@ def aEstrella(mapa, casilla_origen, casilla_destino, camino, heuristica, limite_
             else:
                 # En caso contrario, calculamos g, h y f, le asignamos el padre (nodo previo con mejor f) y lo guardamos en explorado.
                 nodo_vecino.g = nodo_actual.g + 1
-                nodo_vecino.h = heuristica()
+                nodo_vecino.h = heuristica(
+                    nodo_actual.casilla, nodo_vecino.casilla)
                 nodo_vecino.f = nodo_vecino.g + nodo_vecino.h
                 nodo_vecino.padre = nodo_actual
 

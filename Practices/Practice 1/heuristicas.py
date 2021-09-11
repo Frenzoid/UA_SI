@@ -1,4 +1,4 @@
-def uniforme():
+def uniforme(casilla1, casilla2):
     return 0
 
 
