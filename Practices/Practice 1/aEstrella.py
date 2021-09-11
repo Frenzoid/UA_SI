@@ -43,6 +43,7 @@ def aEstrella(mapa, casilla_origen, casilla_destino, camino, heuristica, limite_
                 casilla_actual = nodo_actual.casilla
                 camino[casilla_actual.getFila()][casilla_actual.getCol()] = "X "
 
+                # Si ha sido el ultimo nodo en procesar, devolvemos f, en caso contrario, continuamos.
                 if not nodo_actual.padre:
                     return f
                 else:
