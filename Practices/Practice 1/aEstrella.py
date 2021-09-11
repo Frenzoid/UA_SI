@@ -1,3 +1,4 @@
+from heuristicas import uniforme
 from hashtable import HashTable
 from nodo import *
 
@@ -34,15 +35,18 @@ def aEstrella(mapa, casilla_origen, casilla_destino, camino, heuristica, limite_
         if nodo_actual == nodo_destino:
             nodo_actual_aux = nodo_actual
 
+            # Guardamos f
+            f = nodo_actual.f
+
             # Reconstruimos el camino
-            while nodo_actual.padre:
+            while nodo_actual:
                 casilla_actual = nodo_actual.casilla
                 camino[casilla_actual.getFila()][casilla_actual.getCol()] = "X "
-                nodo_actual = nodo_actual.padre
 
-            casilla_actual = nodo_actual.casilla
-            camino[casilla_actual.getFila()][casilla_actual.getCol()] = "X "
-            return nodo_actual.f
+                if not nodo_actual.padre:
+                    return f
+                else:
+                    nodo_actual = nodo_actual.padre
 
         # Ya hemos revisado el nodo con menor F, lo sacamos de los explorados, y lo guardamos en revisados.
         explorado.remove(nodo_actual)
