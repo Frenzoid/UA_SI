@@ -30,12 +30,6 @@ class Casilla():
     def __str__(self):
         return '(' + str(self.fila) + ', ' + str(self.col) + ')'
 
-    # Devolvemos una lista con las casillas vecinas x8
-
-    def casillasVecinas(self):
-        # (0, -1), (0, 1), (-1, 0), (1, 0), (-1, -1), (-1, 1), (1, -1), (1, 1)
-        return [self + (0, -1), self + (0, 1), self + (-1, 0), self + (1, 0), self + (-1, -1), self + (-1, 1), self + (1, -1), self + (1, 1)]
-
     # Devuelve tupla
     def getTupla(self):
         return (self.fila, self.col)

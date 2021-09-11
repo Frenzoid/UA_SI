@@ -10,23 +10,18 @@ def aEstrella(mapa, casilla_origen, casilla_destino, camino, heuristica, limite_
     nodo_destino = Nodo(None, casilla_destino)
 
     # Inicializamos las listas donde guardaremos los nodos explorados y revisados.
-    explorado = set()  # Nodos que se han explorado.
-    revisado = set()  # Nodos explorado que se han revisado y comparado.
+    explorado = set()   # Nodos que se han explorado.
+    revisado = set()    # Nodos explorado que se han revisado y comparado.
 
     # Añadimos el nodo origen.
     explorado.add(nodo_origen)
 
-    # Cantidad de iteraciones.
-    cant_iter = 0
+    # Contador de nodos descubiertos.
+    cant_descubierto = 0
 
     # Hora de la generacion y exploración. Iteramos hasta hallar el nodo destino.
     while explorado:
-
-        # n-n-no hay salida!? Creo que por aquí ya he pasado... esto no p-puede ser!!!! AHHHHHHHHHHHHHHHHHHHHHHH1
-        if cant_iter > limite_iter:
-            break
-        else:
-            cant_iter += 1
+        print(len(revisado))
 
         # De los nodos explorados, sacamos el nodo con menor f
         nodo_actual = min(explorado, key=lambda o: o.f)
@@ -49,18 +44,18 @@ def aEstrella(mapa, casilla_origen, casilla_destino, camino, heuristica, limite_
                 else:
                     nodo_actual = nodo_actual.padre
 
-        # Ya hemos revisado el nodo con menor F, lo sacamos de los explorados, y lo guardamos en revisados.
+        # Hemos revisado el nodo con menor F, lo sacamos de los explorados, y lo guardamos en revisados.
         explorado.remove(nodo_actual)
         revisado.add(nodo_actual)
 
         # Revisamos las casillas de los alrededores.
-        for casilla_vecina in nodo_actual.casilla.casillasVecinas():
+        for casilla_vecina in casillasVecinas(nodo_actual.casilla):
 
             # Creamos un nuevo nodo vecino de la casilla vecina, usando el nodo actual como padre
             nodo_vecino = Nodo(nodo_actual, casilla_vecina)
 
             # Revisamos si ya lo tenemos dentro del set de revisados ( usando el hash. O(1) - O(N)!!! VIVAN LAS HASHTABLES!!! )
-            if nodo_vecino in explorado:
+            if nodo_vecino in revisado:
                 continue
 
             # Nos aseguramos de que la casilla vecina no es una pared
@@ -73,9 +68,8 @@ def aEstrella(mapa, casilla_origen, casilla_destino, camino, heuristica, limite_
 
             # Si ya hemos explorado el nodo y el nodo actual es mejor que el nodo vecino...
             if nodo_vecino in explorado and nodo_vecino.g > nodo_actual.g + 1:
-
                 # Actualizamos el g y el padre del nodo vecino! ( Se ha encontrado un camino menor para llegar al nodo vecino. )
-                nodo_vecino.g = g
+                nodo_vecino.g = nodo_actual.g + 1
                 nodo_vecino.parent = nodo_actual
             else:
                 # En caso contrario, calculamos g, h y f, le asignamos el padre (nodo previo con mejor f) y lo guardamos en explorado.
@@ -87,3 +81,17 @@ def aEstrella(mapa, casilla_origen, casilla_destino, camino, heuristica, limite_
 
                 explorado.add(nodo_vecino)
     return -1
+
+
+# Devolvemos una lista con las casillas vecinas de la casilla actual.
+def casillasVecinas(casilla):
+    # ↑ = ( 0, 1 )
+    # ↗ = ( 1, 1 )
+    # → = (-1, 0 )
+    # ↘ = ( 1, -1)
+    # ↓ = ( 0, -1)
+    # ↙ = (-1, -1)
+    # ← = ( 1, 0 )
+    # ↖ = (-1, 1 )
+    # (0,1),(0,-1),(1,0),(-1,0),(1,1),(1,-1),(-1,1),(-1,-1)
+    return [casilla + (0, 1), casilla + (0, -1), casilla + (1, 0), casilla + (-1, 0), casilla + (1, 1), casilla + (1, -1), casilla + (-1, 1), casilla + (-1, -1)]

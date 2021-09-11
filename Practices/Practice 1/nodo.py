@@ -7,8 +7,13 @@ class Nodo():
         self.padre = padre
         self.casilla = casilla
 
+        # Distancia desde el inicio
         self.g = 0
+
+        # Distancia hasta el final
         self.h = 0
+
+        # Distancia total ( suma de amabs )
         self.f = 0
 
     # Sobrecarga operador ==.
