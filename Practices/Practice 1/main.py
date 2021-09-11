@@ -136,12 +136,9 @@ def main():
                         destino = casilla
                         camino = inic(mapa)
 
-                        # Limite iteraciones, antes de darse por vencido.
-                        lim_iter = 5000
-
                         # llamar al A*
                         coste = aEstrella(
-                            mapa, origen, destino, camino, uniforme, lim_iter)
+                            mapa, origen, destino, camino, uniforme)
 
                         if coste == -1:
                             tkinter.messagebox.showwarning(

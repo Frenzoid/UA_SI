@@ -3,7 +3,7 @@ from hashtable import HashTable
 from nodo import *
 
 
-def aEstrella(mapa, casilla_origen, casilla_destino, camino, heuristica, limite_iter):
+def aEstrella(mapa, casilla_origen, casilla_destino, camino, heuristica):
 
     # Creamos los nodos origen y destino
     nodo_origen = Nodo(None, casilla_origen)
