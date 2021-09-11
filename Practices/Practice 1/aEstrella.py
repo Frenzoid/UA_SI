@@ -67,7 +67,9 @@ def aEstrella(mapa, casilla_origen, casilla_destino, camino, heuristica, limite_
             if mapa.getCelda(casilla_vecina.getFila(), casilla_vecina.getCol()) != 0:
                 continue
 
-            # TODO revisar si la casilla está fuera del mapa.
+            # Revisamos si la celda está fuera del mapa
+            if not mapa.dentroMapa(casilla_vecina.getFila(), casilla_vecina.getCol()):
+                continue
 
             # Si ya hemos explorado el nodo y el nodo actual es mejor que el nodo vecino...
             if nodo_vecino in explorado and nodo_vecino.g > nodo_actual.g + 1:

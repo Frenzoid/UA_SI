@@ -35,6 +35,11 @@ class Mapa():
     def getOrigen(self):
         return self.origen
 
+    def dentroMapa(self, fila, columna):
+        if fila >= 0 or fila < self.ancho or columna >= 0 or columna <= self.alto:
+            return True
+
+        return False
 # ---------------------------------------------------------------------
 
 # Funciones
