@@ -10,17 +10,30 @@ class Casilla():
         return self.col
 
     # Sobrecarga del operador igualdad
-    def __eq__(self, otraCasilla):
-        return self.fila == otraCasilla.getFila() and self.col == otraCasilla.getCol()
+    def __eq__(self, otro):
+        if type(otro) is Casilla:
+            return self.fila == otro.getFila() and self.col == otro.getCol()
+        elif type(otro) is tuple:
+            return self.fila == otro[0] and self.col == otro[1]
+        else:
+            raise ValueError(
+                'Error en la sobrecarga del operador + en Casilla: Tipo de dato invalido: ' + type(otro).__name__)
 
     # Sobrecarga del operador + para hacernos la vida mas facil
     def __add__(self, otro):
         if type(otro) is Casilla:
             c = Casilla(self.fila + otro.getFila(),
-                        self.col + otro.getFila())
-        elif type(otro) is tuple:
-            c = Casilla(self.fila + otro[0],
-                        self.col + otro[1])
+                        self.col + otro.getCol())
+        else:
+            raise ValueError(
+                'Error en la sobrecarga del operador + en Casilla: Tipo de dato invalido: ' + type(otro).__name__)
+        return c
+
+    # Sobrecarga del operador - para hacernos la vida mas facil
+    def __sub__(self, otro):
+        if type(otro) is Casilla:
+            c = Casilla(self.fila - otro.getFila(),
+                        self.col - otro.getCol())
         else:
             raise ValueError(
                 'Error en la sobrecarga del operador + en Casilla: Tipo de dato invalido: ' + type(otro).__name__)
@@ -29,6 +42,9 @@ class Casilla():
     # Sobrecarga del operador str(Casilla)
     def __str__(self):
         return '(' + str(self.fila) + ', ' + str(self.col) + ')'
+
+    def __hash__(self):
+        return hash(self.getTupla())
 
     # Devuelve tupla
     def getTupla(self):

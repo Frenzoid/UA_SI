@@ -22,4 +22,4 @@ class Nodo():
 
     # Para poder guardarlo en un set, debe tener un hash.
     def __hash__(self):
-        return hash(self.casilla.getTupla())
+        return self.casilla.__hash__()

@@ -16,9 +16,6 @@ def aEstrella(mapa, casilla_origen, casilla_destino, camino, heuristica):
     # Añadimos el nodo origen.
     explorado.add(nodo_origen)
 
-    # Contador de nodos descubiertos.
-    cant_descubierto = 0
-
     # Hora de la generacion y exploración. Iteramos hasta hallar el nodo destino.
     while explorado:
 
@@ -27,8 +24,6 @@ def aEstrella(mapa, casilla_origen, casilla_destino, camino, heuristica):
 
         # Si hemos encontrado el destino...
         if nodo_actual == nodo_destino:
-            nodo_actual_aux = nodo_actual
-
             # Guardamos f
             f = nodo_actual.f
 
@@ -48,7 +43,7 @@ def aEstrella(mapa, casilla_origen, casilla_destino, camino, heuristica):
         revisado.add(nodo_actual)
 
         # Revisamos las casillas de los alrededores.
-        for casilla_vecina in casillasVecinas(nodo_actual.casilla):
+        for casilla_vecina in casillasVecinas(nodo_actual):
 
             # Creamos un nuevo nodo vecino de la casilla vecina, usando el nodo actual como padre
             nodo_vecino = Nodo(nodo_actual, casilla_vecina)
@@ -66,31 +61,71 @@ def aEstrella(mapa, casilla_origen, casilla_destino, camino, heuristica):
                 continue
 
             # Si ya hemos explorado el nodo y el nodo actual es mejor que el nodo vecino...
-            if nodo_vecino in explorado and nodo_vecino.g > nodo_actual.g + 1:
-                # Actualizamos el g y el padre del nodo vecino! ( Se ha encontrado un camino menor para llegar al nodo vecino. )
-                nodo_vecino.g = nodo_actual.g + 1
-                nodo_vecino.parent = nodo_actual
-            else:
+            for nodo_explorado in explorado:
+                if nodo_explorado == nodo_vecino:
+                    if nodo_explorado.g > nodo_actual.g + cMovimiento(nodo_explorado, nodo_actual):
+
+                        # Actualizamos el g y el padre del nodo vecino! ( Se ha encontrado un camino menor para llegar al nodo vecino. )
+                        nodo_explorado.g += nodo_actual.g + \
+                            cMovimiento(nodo_explorado, nodo_actual)
+                        nodo_explorado.padre = nodo_actual
+                break
+
+            if nodo_vecino not in explorado:
                 # En caso contrario, calculamos g, h y f, le asignamos el padre (nodo previo con mejor f) y lo guardamos en explorado.
-                nodo_vecino.g = nodo_actual.g + 1
+                nodo_vecino.g += nodo_actual.g + \
+                    cMovimiento(nodo_actual, nodo_vecino)
                 nodo_vecino.h = heuristica(
                     nodo_actual.casilla, nodo_vecino.casilla)
                 nodo_vecino.f = nodo_vecino.g + nodo_vecino.h
                 nodo_vecino.padre = nodo_actual
 
                 explorado.add(nodo_vecino)
+
+            """ Version 1.
+            
+            # Si ya hemos explorado el nodo y el nodo actual es mejor que el nodo vecino...
+            if nodo_vecino in explorado and nodo_vecino.g > nodo_actual.g + cMovimiento(nodo_actual, nodo_vecino):
+                # Actualizamos el g y el padre del nodo vecino! ( Se ha encontrado un camino menor para llegar al nodo vecino. )
+                nodo_vecino.g = nodo_actual.g + \
+                    cMovimiento(nodo_actual, nodo_vecino)
+                nodo_vecino.parent = nodo_actual
+            else:
+                # En caso contrario, calculamos g, h y f, le asignamos el padre (nodo previo con mejor f) y lo guardamos en explorado.
+                nodo_vecino.g = nodo_actual.g + \
+                    cMovimiento(nodo_actual, nodo_vecino)
+                nodo_vecino.h = heuristica(
+                    nodo_actual.casilla, nodo_vecino.casilla)
+                nodo_vecino.f = nodo_vecino.g + nodo_vecino.h
+                nodo_vecino.padre = nodo_actual
+
+                explorado.add(nodo_vecino)
+            """
     return -1
 
 
 # Devolvemos una lista con las casillas vecinas de la casilla actual.
-def casillasVecinas(casilla):
+def casillasVecinas(nodo):
+    casilla = nodo.casilla
     # ↑ = ( 0, 1 )
-    # ↗ = ( 1, 1 )
-    # → = (-1, 0 )
-    # ↘ = ( 1, -1)
     # ↓ = ( 0, -1)
-    # ↙ = (-1, -1)
+    # → = (-1, 0 )
     # ← = ( 1, 0 )
+    # ↗ = ( 1, 1 )
+    # ↘ = ( 1, -1)
     # ↖ = (-1, 1 )
+    # ↙ = (-1, -1)
     # (0,1),(0,-1),(1,0),(-1,0),(1,1),(1,-1),(-1,1),(-1,-1)
-    return [casilla + (0, 1), casilla + (0, -1), casilla + (1, 0), casilla + (-1, 0), casilla + (1, 1), casilla + (1, -1), casilla + (-1, 1), casilla + (-1, -1)]
+    return [casilla + Casilla(0, 1), casilla + Casilla(0, -1), casilla + Casilla(1, 0), casilla + Casilla(-1, 0),
+            casilla + Casilla(1, 1), casilla + Casilla(1, -1), casilla + Casilla(-1, 1), casilla + Casilla(-1, -1)]
+
+
+# devolvemos el coste del movimiento
+def cMovimiento(n1, n2):
+    diagonales = set({Casilla(1, 1), Casilla(1, -1),
+                     Casilla(-1, -1), Casilla(-1, 1)})
+
+    if ((n1.casilla - n2.casilla) in diagonales):
+        return 1.5
+
+    return 1
