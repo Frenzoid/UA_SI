@@ -17,9 +17,9 @@ class Nodo():
         self.f = 0
 
     # Sobrecarga operador ==.
-    def __eq__(self, otroNodo):
-        return self.casilla == otroNodo.casilla
+    def __eq__(self, otro):
+        return self.casilla == otro.casilla
 
-    # Para poder guardarlo en un set, debe tener un hash.
+    # Para poder identificarlo por la casilla, y evitar tener 2 instancias del mismo nodo con las mismas coordenadas.
     def __hash__(self):
         return self.casilla.__hash__()

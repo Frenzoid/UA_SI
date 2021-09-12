@@ -43,6 +43,7 @@ class Casilla():
     def __str__(self):
         return '(' + str(self.fila) + ', ' + str(self.col) + ')'
 
+    # Un hash unico basado en sus coordenadas.
     def __hash__(self):
         return hash(self.getTupla())
 
