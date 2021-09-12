@@ -10,20 +10,17 @@ def aEstrella(mapa, casilla_origen, casilla_destino, camino, heuristica):
     nodo_destino = Nodo(None, casilla_destino)
 
     # Inicializamos las listas donde guardaremos los nodos explorados y revisados.
-    explorado = {}   # Nodos que se han explorado.
-    revisado = {}    # Nodos explorado que se han revisado y comparado.
+    explorado = set()   # Nodos que se han explorado.
+    revisado = set()    # Nodos explorado que se han revisado y comparado.
 
     # Añadimos el nodo origen.
-    explorado[nodo_origen.__hash__()] = nodo_origen
+    explorado.add(nodo_origen)
 
     # Hora de la generacion y exploración. Iteramos hasta hallar el nodo destino.
     while explorado:
 
         # De los nodos explorados, sacamos el nodo con menor f
-        hash_nodo_minimo_f = min(explorado, key=lambda hash: explorado[hash].f)
-
-        # nodo minimo
-        nodo_actual = explorado[hash_nodo_minimo_f]
+        nodo_actual = min(explorado, key=lambda o: o.f)
 
         # Si hemos encontrado el destino...
         if nodo_actual == nodo_destino:
@@ -42,8 +39,8 @@ def aEstrella(mapa, casilla_origen, casilla_destino, camino, heuristica):
                     nodo_actual = nodo_actual.padre
 
         # Hemos revisado el nodo con menor F, lo sacamos de los explorados, y lo guardamos en revisados.
-        del explorado[nodo_actual.__hash__()]
-        revisado[nodo_actual.__hash__()] = nodo_actual
+        explorado.remove(nodo_actual)
+        revisado.add(nodo_actual)
 
         # Revisamos las casillas de los alrededores.
         for casilla_vecina in casillasVecinas(nodo_actual):
@@ -52,7 +49,7 @@ def aEstrella(mapa, casilla_origen, casilla_destino, camino, heuristica):
             nodo_vecino = Nodo(nodo_actual, casilla_vecina)
 
             # Revisamos si ya lo tenemos dentro del set de revisados ( usando el hash. O(1) - O(N)!!! VIVAN LAS HASHTABLES!!! )
-            if nodo_vecino.__hash__() in revisado:
+            if nodo_vecino in revisado:
                 continue
 
             # Nos aseguramos de que la casilla vecina no es una pared
@@ -64,7 +61,31 @@ def aEstrella(mapa, casilla_origen, casilla_destino, camino, heuristica):
                 continue
 
             # Si ya hemos explorado el nodo y el nodo actual es mejor que el nodo vecino...
-            if nodo_vecino.__hash__() in explorado and nodo_vecino.g > nodo_actual.g + cMovimiento(nodo_actual, nodo_vecino):
+            for nodo_explorado in explorado:
+                if nodo_explorado == nodo_vecino:
+                    if nodo_explorado.g > nodo_actual.g + cMovimiento(nodo_explorado, nodo_actual):
+
+                        # Actualizamos el g y el padre del nodo vecino! ( Se ha encontrado un camino menor para llegar al nodo vecino. )
+                        nodo_explorado.g += nodo_actual.g + \
+                            cMovimiento(nodo_explorado, nodo_actual)
+                        nodo_explorado.padre = nodo_actual
+                break
+
+            if nodo_vecino not in explorado:
+                # En caso contrario, calculamos g, h y f, le asignamos el padre (nodo previo con mejor f) y lo guardamos en explorado.
+                nodo_vecino.g += nodo_actual.g + \
+                    cMovimiento(nodo_actual, nodo_vecino)
+                nodo_vecino.h = heuristica(
+                    nodo_actual.casilla, nodo_vecino.casilla)
+                nodo_vecino.f = nodo_vecino.g + nodo_vecino.h
+                nodo_vecino.padre = nodo_actual
+
+                explorado.add(nodo_vecino)
+
+            """ Version 1.
+
+            # Si ya hemos explorado el nodo y el nodo actual es mejor que el nodo vecino...
+            if nodo_vecino in explorado and nodo_vecino.g > nodo_actual.g + cMovimiento(nodo_actual, nodo_vecino):
                 # Actualizamos el g y el padre del nodo vecino! ( Se ha encontrado un camino menor para llegar al nodo vecino. )
                 nodo_vecino.g = nodo_actual.g + \
                     cMovimiento(nodo_actual, nodo_vecino)
@@ -78,8 +99,8 @@ def aEstrella(mapa, casilla_origen, casilla_destino, camino, heuristica):
                 nodo_vecino.f = nodo_vecino.g + nodo_vecino.h
                 nodo_vecino.padre = nodo_actual
 
-                explorado[nodo_vecino.__hash__()] = nodo_vecino
-
+                explorado.add(nodo_vecino)
+            """
     return -1
 
 
