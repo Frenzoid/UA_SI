@@ -63,7 +63,7 @@ def aEstrella(mapa, casilla_origen, casilla_destino, camino, heuristica):
             # Si el nodo no ha sido explorado, los calculamos y añadimos
             if nodo_vecino not in explorado:
 
-                nodo_vecino.g += nodo_actual.g + \
+                nodo_vecino.g = nodo_actual.g + \
                     cMovimiento(nodo_actual, nodo_vecino)
                 nodo_vecino.h = uniforme(
                     nodo_actual.casilla, nodo_vecino.casilla)
@@ -77,7 +77,7 @@ def aEstrella(mapa, casilla_origen, casilla_destino, camino, heuristica):
                 if nodo_explorado == nodo_vecino and nodo_explorado.g > nodo_actual.g + cMovimiento(nodo_explorado, nodo_actual):
 
                     # Actualizamos el g y el padre del nodo vecino! ( Se ha encontrado un camino menor para llegar al nodo vecino. )
-                    nodo_explorado.g += nodo_actual.g + \
+                    nodo_explorado.g = nodo_actual.g + \
                         cMovimiento(nodo_explorado, nodo_actual)
                     nodo_explorado.padre = nodo_actual
                 break
