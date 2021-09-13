@@ -1,5 +1,4 @@
 from heuristicas import uniforme
-from hashtable import HashTable
 from nodo import *
 
 
@@ -19,11 +18,12 @@ def aEstrella(mapa, casilla_origen, casilla_destino, camino, heuristica):
     # Hora de la generacion y exploración. Iteramos hasta hallar el nodo destino.
     while explorado:
 
-        # De los nodos explorados, sacamos el nodo con menor f
-        nodo_actual = min(explorado, key=lambda o: o.f)
+        # De los nodos explorados, sacamos el hash nodo con menor f
+        nodo_actual = min(explorado, key=lambda nodo: nodo.f)
 
         # Si hemos encontrado el destino...
         if nodo_actual == nodo_destino:
+
             # Guardamos f
             f = nodo_actual.f
 
@@ -48,7 +48,7 @@ def aEstrella(mapa, casilla_origen, casilla_destino, camino, heuristica):
             # Creamos un nuevo nodo vecino de la casilla vecina, usando el nodo actual como padre
             nodo_vecino = Nodo(nodo_actual, casilla_vecina)
 
-            # Revisamos si ya lo tenemos dentro del set de revisados ( usando el hash. O(1) - O(N)!!! VIVAN LAS HASHTABLES!!! )
+            # Revisamos si ya lo tenemos dentro del set de revisados
             if nodo_vecino in revisado:
                 continue
 
@@ -65,7 +65,7 @@ def aEstrella(mapa, casilla_origen, casilla_destino, camino, heuristica):
 
                 nodo_vecino.g += nodo_actual.g + \
                     cMovimiento(nodo_actual, nodo_vecino)
-                nodo_vecino.h = heuristica(
+                nodo_vecino.h = uniforme(
                     nodo_actual.casilla, nodo_vecino.casilla)
                 nodo_vecino.f = nodo_vecino.g + nodo_vecino.h
                 nodo_vecino.padre = nodo_actual
@@ -82,25 +82,6 @@ def aEstrella(mapa, casilla_origen, casilla_destino, camino, heuristica):
                     nodo_explorado.padre = nodo_actual
                 break
 
-            """ Version 1.
-
-            # Si ya hemos explorado el nodo y el nodo actual es mejor que el nodo vecino...
-            if nodo_vecino in explorado and nodo_vecino.g > nodo_actual.g + cMovimiento(nodo_actual, nodo_vecino):
-                # Actualizamos el g y el padre del nodo vecino! ( Se ha encontrado un camino menor para llegar al nodo vecino. )
-                nodo_vecino.g = nodo_actual.g + \
-                    cMovimiento(nodo_actual, nodo_vecino)
-                nodo_vecino.parent = nodo_actual
-            else:
-                # En caso contrario, calculamos g, h y f, le asignamos el padre (nodo previo con mejor f) y lo guardamos en explorado.
-                nodo_vecino.g = nodo_actual.g + \
-                    cMovimiento(nodo_actual, nodo_vecino)
-                nodo_vecino.h = heuristica(
-                    nodo_actual.casilla, nodo_vecino.casilla)
-                nodo_vecino.f = nodo_vecino.g + nodo_vecino.h
-                nodo_vecino.padre = nodo_actual
-
-                explorado.add(nodo_vecino)
-            """
     return -1
 
 
