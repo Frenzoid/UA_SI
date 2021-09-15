@@ -1,4 +1,3 @@
-from heuristicas import uniforme
 from nodo import *
 
 
@@ -18,7 +17,7 @@ def aEstrella(mapa, casilla_origen, casilla_destino, camino, heuristica):
     # Hora de la generacion y exploración. Iteramos hasta hallar el nodo destino.
     while explorado:
 
-        # De los nodos explorados, sacamos el hash nodo con menor f
+        # De los nodos explorados, sacamos el que tiene menor f, y iteramos sobre el.
         nodo_actual = min(explorado, key=lambda nodo: nodo.f)
 
         # Si hemos encontrado el destino...
@@ -52,12 +51,12 @@ def aEstrella(mapa, casilla_origen, casilla_destino, camino, heuristica):
             if nodo_vecino in revisado:
                 continue
 
-            # Nos aseguramos de que la casilla vecina no es una pared
-            if mapa.getCelda(casilla_vecina.getFila(), casilla_vecina.getCol()) != 0:
+            # Revisamos que la celda vecina esté dentro del mapa
+            if not mapa.dentroMapa(casilla_vecina.getFila(), casilla_vecina.getCol()):
                 continue
 
-            # Revisamos si la celda está fuera del mapa
-            if not mapa.dentroMapa(casilla_vecina.getFila(), casilla_vecina.getCol()):
+            # Nos aseguramos de que la casilla vecina no es una pared
+            if mapa.getCelda(casilla_vecina.getFila(), casilla_vecina.getCol()) != 0:
                 continue
 
             # Si el nodo no ha sido explorado, los calculamos y añadimos
@@ -65,7 +64,7 @@ def aEstrella(mapa, casilla_origen, casilla_destino, camino, heuristica):
 
                 nodo_vecino.g = nodo_actual.g + \
                     cMovimiento(nodo_actual, nodo_vecino)
-                nodo_vecino.h = uniforme(
+                nodo_vecino.h = heuristica(
                     nodo_actual.casilla, nodo_vecino.casilla)
                 nodo_vecino.f = nodo_vecino.g + nodo_vecino.h
                 nodo_vecino.padre = nodo_actual

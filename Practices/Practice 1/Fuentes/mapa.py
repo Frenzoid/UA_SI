@@ -36,7 +36,7 @@ class Mapa():
         return self.origen
 
     def dentroMapa(self, fila, columna):
-        if fila >= 0 or fila < self.ancho or columna >= 0 or columna <= self.alto:
+        if fila >= 0 and fila < self.alto and columna >= 0 and columna < self.ancho:
             return True
 
         return False
