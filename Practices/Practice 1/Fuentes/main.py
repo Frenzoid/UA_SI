@@ -5,7 +5,7 @@ import tkinter.filedialog
 
 from casilla import *
 from mapa import *
-from aEstrella import *
+from AStar import *
 from heuristicas import uniforme
 from heuristicas import manhattan
 from pygame.locals import *
@@ -137,7 +137,7 @@ def main():
                         camino = inic(mapa)
 
                         # llamar al A*
-                        coste = aEstrella(
+                        coste = AStar(
                             mapa, origen, destino, camino, uniforme)
 
                         if coste == -1:
