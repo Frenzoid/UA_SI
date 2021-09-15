@@ -95,7 +95,7 @@ def main():
     altoVentana = MARGEN_INFERIOR+mapa.getAlto()*(TAM+MARGEN)+MARGEN
     dimension = [anchoVentana, altoVentana]
     screen = pygame.display.set_mode(dimension)
-    pygame.display.set_caption("Practica 1")
+    pygame.display.set_caption("A*")
 
     boton = pygame.image.load("./assets/boton.png").convert()
     boton = pygame.transform.scale(boton, [50, 30])
@@ -142,12 +142,12 @@ def main():
 
                         if coste == -1:
                             tkinter.messagebox.showwarning(
-                                title='Error', message='No existe un camino entre origen y destino')
+                                title='Error', message='Theres no way between the start and end point.')
                         else:
                             primeraVez = False  # hay un camino y el destino será el origen para el próximo movimiento
                     else:  # se ha hecho click en una celda roja
                         tkinter.messagebox.showwarning(
-                            title='Error', message='Esa casilla no es valida')
+                            title='Error', message='This slot is invalid.')
 
         # código de dibujo
         # limpiar pantalla
@@ -182,7 +182,7 @@ def main():
         # pinta coste
         if coste != -1:
             fuente = pygame.font.Font(None, 30)
-            texto = fuente.render("Coste "+str(coste), True, AMARILLO)
+            texto = fuente.render("Cost "+str(coste), True, AMARILLO)
             screen.blit(texto, [anchoVentana-120,
                                 mapa.getAlto()*(TAM+MARGEN)+MARGEN+15])
 
