@@ -46,19 +46,19 @@ def AStar(mapa, casilla_origen, casilla_destino, camino, heuristica):
         # We check the neighboring nodes. For each neighbor coordinate..
         for neighbor_slot in neighborSlots(current_best_node):
 
+            # Check if the current neighbor coordinate is actually in bounds of the map.
+            if not mapa.inBounds(neighbor_slot.getFila(), neighbor_slot.getCol()):
+                continue
+
+            # We make sure that the neighbor coordinate is not a wall
+            if mapa.getCelda(neighbor_slot.getFila(), neighbor_slot.getCol()) != 0:
+                continue
+
             # Create a new node with the neighbor coordinates, and also attach the parent node (current best node) to it.
             neighbor_node = Node(current_best_node, neighbor_slot)
 
             # Check if the current neighbor node wasn't checked on previous iterations.
             if neighbor_node in checked:
-                continue
-
-            # Check if the current neighbor coordinates are actually inside the map.
-            if not mapa.inBounds(neighbor_slot.getFila(), neighbor_slot.getCol()):
-                continue
-
-            # We make sure that the neighboring coordinates are not a wall
-            if mapa.getCelda(neighbor_slot.getFila(), neighbor_slot.getCol()) != 0:
                 continue
 
             # If the node has not been discovered, we calculate its values and add it to discovered
