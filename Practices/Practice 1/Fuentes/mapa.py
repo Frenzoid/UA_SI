@@ -35,7 +35,7 @@ class Mapa():
     def getOrigen(self):
         return self.origen
 
-    def dentroMapa(self, fila, columna):
+    def inBounds(self, fila, columna):
         if fila >= 0 and fila < self.alto and columna >= 0 and columna < self.ancho:
             return True
 
