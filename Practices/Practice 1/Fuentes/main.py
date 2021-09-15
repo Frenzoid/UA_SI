@@ -142,7 +142,7 @@ def main():
 
                         if coste == -1:
                             tkinter.messagebox.showwarning(
-                                title='Error', message='Theres no way between the start and end point.')
+                                title='Error', message='Theres no way between the start and the end point.')
                         else:
                             primeraVez = False  # hay un camino y el destino será el origen para el próximo movimiento
                     else:  # se ha hecho click en una celda roja
