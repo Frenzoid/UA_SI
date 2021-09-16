@@ -1,6 +1,7 @@
 # Elvi Mihai Sabau Sabau
 
 class Node():
+    """A Node class, used to encapsulate each slot (Casilla) and assign them the g, h and f value"""
     def __init__(self, parent=None, slot=None):
         self.parent = parent
         self.slot = slot

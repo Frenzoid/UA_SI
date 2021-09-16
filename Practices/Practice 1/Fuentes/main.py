@@ -66,7 +66,7 @@ def inic(mapa):
     cam = []
     for i in range(mapa.alto):
         cam.append([])
-        for j in range(mapa.ancho):
+        for _ in range(mapa.ancho):
             cam[i].append('.')
 
     return cam

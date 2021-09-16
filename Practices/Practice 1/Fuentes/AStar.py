@@ -90,6 +90,7 @@ def AStar(mapa, casilla_origen, casilla_destino, camino, heuristica):
 
 # Returns a list with the neighboring coordinates of the current coordinates.
 def neighborSlots(Node):
+    """Get neighboring slots of the Node"""
     casilla = Node.slot
     # ↑ = ( 0, 1 )
     # ↓ = ( 0, -1)
@@ -106,6 +107,7 @@ def neighborSlots(Node):
 
 # Returns the cost of movement, from node1 (n1) to node2 (n2)
 def movementCost(n1, n2):
+    """Get the movement cost from n1 to n2 (both must be neighbors"""
     diagonal_movements = set({Casilla(1, 1), Casilla(1, -1),
                               Casilla(-1, -1), Casilla(-1, 1)})
 

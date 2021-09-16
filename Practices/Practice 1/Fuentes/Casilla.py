@@ -1,6 +1,7 @@
 # Elvi Mihai Sabau Sabau
 
 class Casilla():
+    """Slot class, used to store coordinates as tuples on the map"""
     def __init__(self, f, c):
         self.fila = f
         self.col = c
@@ -19,7 +20,7 @@ class Casilla():
             return self.fila == otro[0] and self.col == otro[1]
         else:
             raise ValueError(
-                'Error en la sobrecarga del operador + en Casilla: Tipo de dato invalido: ' + type(otro).__name__)
+                'Error on the Casilla == overload. Data type invalid:' + type(otro).__name__)
 
     # Sobrecarga del operador + para hacernos la vida mas facil
     def __add__(self, otro):
@@ -28,7 +29,7 @@ class Casilla():
                         self.col + otro.getCol())
         else:
             raise ValueError(
-                'Error en la sobrecarga del operador + en Casilla: Tipo de dato invalido: ' + type(otro).__name__)
+                'Error on the Casilla + overload. Data type invalid:' + type(otro).__name__)
         return c
 
     # Sobrecarga del operador - para hacernos la vida mas facil
@@ -38,7 +39,7 @@ class Casilla():
                         self.col - otro.getCol())
         else:
             raise ValueError(
-                'Error en la sobrecarga del operador + en Casilla: Tipo de dato invalido: ' + type(otro).__name__)
+                'Error on the Casilla - overload. Data type invalid:' + type(otro).__name__)
         return c
 
     # Sobrecarga del operador str(Casilla)
@@ -51,4 +52,5 @@ class Casilla():
 
     # Devuelve tupla
     def getTupla(self):
+        """Returns a tuple version of the Slot class (Casilla)"""
         return (self.fila, self.col)
