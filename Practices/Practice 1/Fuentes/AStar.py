@@ -1,5 +1,7 @@
-from Node import *
+# Elvi Mihai Sabau Sabau
 
+from Node import Node
+from Casilla import Casilla
 
 def AStar(mapa, casilla_origen, casilla_destino, camino, heuristica):
     """A path-finding algorithm that maps all best paths from any end point to the start point."""

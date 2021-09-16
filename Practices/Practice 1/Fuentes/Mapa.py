@@ -1,5 +1,6 @@
-from casilla import *
+# Elvi Mihai Sabau Sabau
 
+from Casilla import Casilla
 
 class Mapa():
     def __init__(self, archivo):

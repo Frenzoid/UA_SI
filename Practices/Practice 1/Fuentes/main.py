@@ -1,11 +1,10 @@
-import sys
 import pygame
 import tkinter
 import tkinter.filedialog
 
-from casilla import *
-from mapa import *
-from AStar import *
+from Casilla import Casilla
+from Mapa import Mapa
+from AStar import AStar
 from heuristicas import uniforme
 from heuristicas import manhattan
 from pygame.locals import *

@@ -1,6 +1,4 @@
-from casilla import *
-from mapa import *
-
+# Elvi Mihai Sabau Sabau
 
 class Node():
     def __init__(self, parent=None, slot=None):
