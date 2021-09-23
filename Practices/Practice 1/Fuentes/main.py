@@ -139,7 +139,7 @@ def main():
 
                         # llamar al A*
                         coste = AStar(
-                            mapa, origen, destino, camino, manhattan)
+                            mapa, origen, destino, camino, euclidea2)
 
                         if coste == -1:
                             tkinter.messagebox.showwarning(
@@ -156,7 +156,7 @@ def main():
         # pinta mapa
         for fil in range(mapa.getAlto()):
             filastring = ''
-            
+
             for col in range(mapa.getAncho()):
 
                 # Por cada tick, pinta el mapa, y imprime en consola los caminos
@@ -176,7 +176,8 @@ def main():
                     elif camino[fil][col][0] == 0:
                         pygame.draw.rect(screen, AMARILLO, [
                                          (TAM+MARGEN)*col+MARGEN, (TAM+MARGEN)*fil+MARGEN, TAM, TAM], 0)
-                        filastring += ('[' + str(camino[fil][col][1]) + ']').rjust(4)
+                        filastring += ('[' + str(camino[fil]
+                                       [col][1]) + ']').rjust(4)
 
                 elif mapa.getCelda(fil, col) == 1:
                     pygame.draw.rect(
@@ -184,7 +185,6 @@ def main():
                     filastring += '-1'.rjust(4)
                 else:
                     filastring += '-1'.rjust(4)
-
 
             print(filastring)
 

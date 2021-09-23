@@ -2,6 +2,7 @@
 
 class Casilla():
     """Slot class, used to store coordinates as tuples on the map"""
+
     def __init__(self, f, c):
         self.fila = f
         self.col = c
@@ -12,7 +13,7 @@ class Casilla():
     def getCol(self):
         return self.col
 
-    # Sobrecarga del operador igualdad
+    # == operator overload
     def __eq__(self, otro):
         if type(otro) is Casilla:
             return self.fila == otro.getFila() and self.col == otro.getCol()
@@ -22,7 +23,7 @@ class Casilla():
             raise ValueError(
                 'Error on the Casilla == overload. Data type invalid:' + type(otro).__name__)
 
-    # Sobrecarga del operador + para hacernos la vida mas facil
+    # + operator overload
     def __add__(self, otro):
         if type(otro) is Casilla:
             c = Casilla(self.fila + otro.getFila(),
@@ -32,7 +33,7 @@ class Casilla():
                 'Error on the Casilla + overload. Data type invalid:' + type(otro).__name__)
         return c
 
-    # Sobrecarga del operador - para hacernos la vida mas facil
+    # - operator overload
     def __sub__(self, otro):
         if type(otro) is Casilla:
             c = Casilla(self.fila - otro.getFila(),
@@ -42,15 +43,15 @@ class Casilla():
                 'Error on the Casilla - overload. Data type invalid:' + type(otro).__name__)
         return c
 
-    # Sobrecarga del operador str(Casilla)
+    # string operator overload
     def __str__(self):
         return '(' + str(self.fila) + ', ' + str(self.col) + ')'
 
-    # Un hash unico basado en sus coordenadas.
+    # We created a unique hash for said slot
     def __hash__(self):
         return hash(self.getTupla())
 
-    # Devuelve tupla
+    # Returns slot
     def getTupla(self):
         """Returns a tuple version of the Slot class (Casilla)"""
         return (self.fila, self.col)

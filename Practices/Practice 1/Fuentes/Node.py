@@ -2,6 +2,7 @@
 
 class Node():
     """A Node class, used to encapsulate each slot (Casilla) and assign them the g, h and f value"""
+
     def __init__(self, parent=None, slot=None):
         self.parent = parent
         self.slot = slot
@@ -15,7 +16,7 @@ class Node():
         # Total distance.
         self.f = 0
 
-        # Node number, used to enumerate pahts.
+        # Node number, used to enumerate paths.
         self.number = 0
 
     # Overload of operator ==
