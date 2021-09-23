@@ -6,6 +6,8 @@ from Casilla import Casilla
 from Mapa import Mapa
 from AStar import AStar
 from heuristicas import uniforme
+from heuristicas import euclidea
+from heuristicas import euclidea2
 from heuristicas import manhattan
 from pygame.locals import *
 
@@ -137,7 +139,7 @@ def main():
 
                         # llamar al A*
                         coste = AStar(
-                            mapa, origen, destino, camino, uniforme)
+                            mapa, origen, destino, camino, manhattan)
 
                         if coste == -1:
                             tkinter.messagebox.showwarning(
@@ -157,31 +159,31 @@ def main():
             
             for col in range(mapa.getAncho()):
 
-                # para que no quede negro el origen inicial
+                # Por cada tick, pinta el mapa, y imprime en consola los caminos
                 if mapa.getCelda(fil, col) == 2 and not primeraVez:
                     pygame.draw.rect(screen, BLANCO, [
                                      (TAM+MARGEN)*col+MARGEN, (TAM+MARGEN)*fil+MARGEN, TAM, TAM], 0)
-                    filastring += '-1'.rjust(3)
+                    filastring += '-1'.rjust(4)
                 if mapa.getCelda(fil, col) == 0:
                     if camino[fil][col] == '.':
                         pygame.draw.rect(screen, BLANCO, [
                                          (TAM+MARGEN)*col+MARGEN, (TAM+MARGEN)*fil+MARGEN, TAM, TAM], 0)
-                        filastring += '-1'.rjust(3)
+                        filastring += '-1'.rjust(4)
                     elif camino[fil][col][0] == 1:
                         pygame.draw.rect(screen, AZUL, [
                                          (TAM+MARGEN)*col+MARGEN, (TAM+MARGEN)*fil+MARGEN, TAM, TAM], 0)
-                        filastring += str(camino[fil][col][1]).rjust(3)
+                        filastring += str(camino[fil][col][1]).rjust(4)
                     elif camino[fil][col][0] == 0:
                         pygame.draw.rect(screen, AMARILLO, [
                                          (TAM+MARGEN)*col+MARGEN, (TAM+MARGEN)*fil+MARGEN, TAM, TAM], 0)
-                        filastring += str(camino[fil][col][1]).rjust(3)
+                        filastring += ('[' + str(camino[fil][col][1]) + ']').rjust(4)
 
                 elif mapa.getCelda(fil, col) == 1:
                     pygame.draw.rect(
                         screen, ROJO, [(TAM+MARGEN)*col+MARGEN, (TAM+MARGEN)*fil+MARGEN, TAM, TAM], 0)
-                    filastring += '-1'.rjust(3)
+                    filastring += '-1'.rjust(4)
                 else:
-                    filastring += '-1'.rjust(3)
+                    filastring += '-1'.rjust(4)
 
 
             print(filastring)

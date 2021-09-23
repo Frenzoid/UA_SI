@@ -74,9 +74,9 @@ def AStar(mapa, casilla_origen, casilla_destino, camino, heuristica):
                 neighbor_node.g = current_best_node.g + \
                     movementCost(current_best_node, neighbor_node)
                 neighbor_node.h = heuristica(
-                    current_best_node.slot, neighbor_node.slot)
+                    neighbor_node.slot, end_node.slot)
                 neighbor_node.f = neighbor_node.g + neighbor_node.h
-                neighbor_node.number += neighbor_node.number + 1;
+                neighbor_node.number = current_best_node.number + 1
 
                 discovered.add(neighbor_node)
                 continue
@@ -89,7 +89,7 @@ def AStar(mapa, casilla_origen, casilla_destino, camino, heuristica):
                     node_discovered.g = current_best_node.g + \
                         movementCost(node_discovered, current_best_node)
                     node_discovered.parent = current_best_node
-                    node_discovered.number += current_best_node.number + 1;
+                    node_discovered.number = current_best_node.number + 1
 
                 break
 
