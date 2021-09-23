@@ -15,6 +15,9 @@ class Node():
         # Total distance.
         self.f = 0
 
+        # Node number, used to enumerate pahts.
+        self.number = 0
+
     # Overload of operator ==
     def __eq__(self, otro):
         return self.slot == otro.slot

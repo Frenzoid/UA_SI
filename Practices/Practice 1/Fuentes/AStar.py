@@ -35,7 +35,7 @@ def AStar(mapa, casilla_origen, casilla_destino, camino, heuristica):
                 current_slot = current_best_node.slot
 
                 # We assigna a value to the path slot, so we can draw colors over it.
-                camino[current_slot.getFila()][current_slot.getCol()] = "X "
+                camino[current_slot.getFila()][current_slot.getCol()] = (0, current_best_node.number)
 
                 # If theres no more nodes to reconstruct, we are finished! :D
                 if not current_best_node.parent:
@@ -44,7 +44,7 @@ def AStar(mapa, casilla_origen, casilla_destino, camino, heuristica):
                     current_best_node = current_best_node.parent
 
         # We assigna a value to the checked slot, so we can draw colors over it.
-        camino[current_best_node.slot.getFila()][current_best_node.slot.getCol()] = "V "
+        camino[current_best_node.slot.getFila()][current_best_node.slot.getCol()] = (1, current_best_node.number)
 
         # We checked the node with lowest F, sadly that wasnt the end node, so we move it to the checked set.
         discovered.remove(current_best_node)
@@ -76,18 +76,21 @@ def AStar(mapa, casilla_origen, casilla_destino, camino, heuristica):
                 neighbor_node.h = heuristica(
                     current_best_node.slot, neighbor_node.slot)
                 neighbor_node.f = neighbor_node.g + neighbor_node.h
+                neighbor_node.number += neighbor_node.number + 1;
 
                 discovered.add(neighbor_node)
                 continue
 
             # If we have already discovered the neighboring Node and the current best node has better values than the neighboring node's parent ...
-            for nodo_discovered in discovered:
-                if nodo_discovered == neighbor_node and nodo_discovered.g > current_best_node.g + movementCost(nodo_discovered, current_best_node):
+            for node_discovered in discovered:
+                if node_discovered == neighbor_node and node_discovered.g > current_best_node.g + movementCost(node_discovered, current_best_node):
 
                     # We update g and the parent of the neighboring node! (A better path has been found to reach the neighboring Node.)
-                    nodo_discovered.g = current_best_node.g + \
-                        movementCost(nodo_discovered, current_best_node)
-                    nodo_discovered.parent = current_best_node
+                    node_discovered.g = current_best_node.g + \
+                        movementCost(node_discovered, current_best_node)
+                    node_discovered.parent = current_best_node
+                    node_discovered.number += current_best_node.number + 1;
+
                 break
 
     return -1

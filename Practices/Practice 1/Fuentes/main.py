@@ -153,26 +153,40 @@ def main():
         screen.fill(NEGRO)
         # pinta mapa
         for fil in range(mapa.getAlto()):
+            filastring = ''
+            
             for col in range(mapa.getAncho()):
 
                 # para que no quede negro el origen inicial
                 if mapa.getCelda(fil, col) == 2 and not primeraVez:
                     pygame.draw.rect(screen, BLANCO, [
                                      (TAM+MARGEN)*col+MARGEN, (TAM+MARGEN)*fil+MARGEN, TAM, TAM], 0)
+                    filastring += '-1'.rjust(3)
                 if mapa.getCelda(fil, col) == 0:
                     if camino[fil][col] == '.':
                         pygame.draw.rect(screen, BLANCO, [
                                          (TAM+MARGEN)*col+MARGEN, (TAM+MARGEN)*fil+MARGEN, TAM, TAM], 0)
-                    elif camino[fil][col] == 'X ':
-                        pygame.draw.rect(screen, AMARILLO, [
-                                         (TAM+MARGEN)*col+MARGEN, (TAM+MARGEN)*fil+MARGEN, TAM, TAM], 0)
-                    else:
+                        filastring += '-1'.rjust(3)
+                    elif camino[fil][col][0] == 1:
                         pygame.draw.rect(screen, AZUL, [
                                          (TAM+MARGEN)*col+MARGEN, (TAM+MARGEN)*fil+MARGEN, TAM, TAM], 0)
-    
+                        filastring += str(camino[fil][col][1]).rjust(3)
+                    elif camino[fil][col][0] == 0:
+                        pygame.draw.rect(screen, AMARILLO, [
+                                         (TAM+MARGEN)*col+MARGEN, (TAM+MARGEN)*fil+MARGEN, TAM, TAM], 0)
+                        filastring += str(camino[fil][col][1]).rjust(3)
+
                 elif mapa.getCelda(fil, col) == 1:
                     pygame.draw.rect(
                         screen, ROJO, [(TAM+MARGEN)*col+MARGEN, (TAM+MARGEN)*fil+MARGEN, TAM, TAM], 0)
+                    filastring += '-1'.rjust(3)
+                else:
+                    filastring += '-1'.rjust(3)
+
+
+            print(filastring)
+
+        print("--------------------------------------------------")
 
         # pinta origen
         screen.blit(personaje, [(TAM+MARGEN)*origen.getCol() +
