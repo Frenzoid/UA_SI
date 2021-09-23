@@ -33,6 +33,8 @@ def AStar(mapa, casilla_origen, casilla_destino, camino, heuristica):
             # Reconstruct the path.
             while current_best_node:
                 current_slot = current_best_node.slot
+
+                # We assigna a value to the path slot, so we can draw colors over it.
                 camino[current_slot.getFila()][current_slot.getCol()] = "X "
 
                 # If theres no more nodes to reconstruct, we are finished! :D
@@ -40,6 +42,9 @@ def AStar(mapa, casilla_origen, casilla_destino, camino, heuristica):
                     return f
                 else:
                     current_best_node = current_best_node.parent
+
+        # We assigna a value to the checked slot, so we can draw colors over it.
+        camino[current_best_node.slot.getFila()][current_best_node.slot.getCol()] = "V "
 
         # We checked the node with lowest F, sadly that wasnt the end node, so we move it to the checked set.
         discovered.remove(current_best_node)

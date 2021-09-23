@@ -154,6 +154,7 @@ def main():
         # pinta mapa
         for fil in range(mapa.getAlto()):
             for col in range(mapa.getAncho()):
+
                 # para que no quede negro el origen inicial
                 if mapa.getCelda(fil, col) == 2 and not primeraVez:
                     pygame.draw.rect(screen, BLANCO, [
@@ -162,10 +163,13 @@ def main():
                     if camino[fil][col] == '.':
                         pygame.draw.rect(screen, BLANCO, [
                                          (TAM+MARGEN)*col+MARGEN, (TAM+MARGEN)*fil+MARGEN, TAM, TAM], 0)
-                    else:
+                    elif camino[fil][col] == 'X ':
                         pygame.draw.rect(screen, AMARILLO, [
                                          (TAM+MARGEN)*col+MARGEN, (TAM+MARGEN)*fil+MARGEN, TAM, TAM], 0)
-
+                    else:
+                        pygame.draw.rect(screen, AZUL, [
+                                         (TAM+MARGEN)*col+MARGEN, (TAM+MARGEN)*fil+MARGEN, TAM, TAM], 0)
+    
                 elif mapa.getCelda(fil, col) == 1:
                     pygame.draw.rect(
                         screen, ROJO, [(TAM+MARGEN)*col+MARGEN, (TAM+MARGEN)*fil+MARGEN, TAM, TAM], 0)
