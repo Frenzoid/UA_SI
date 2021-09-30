@@ -139,7 +139,7 @@ def main():
 
                         # llamar al A*
                         coste = AStar(
-                            mapa, origen, destino, camino, uniforme)
+                            mapa, origen, destino, camino, manhattan)
 
                         if coste == -1:
                             tkinter.messagebox.showwarning(
