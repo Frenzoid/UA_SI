@@ -139,7 +139,7 @@ def main():
 
                         # llamar al A*
                         coste = AStar(
-                            mapa, origen, destino, camino, manhattan)
+                            mapa, origen, destino, camino, uniforme)
 
                         if coste == -1:
                             tkinter.messagebox.showwarning(
@@ -186,9 +186,9 @@ def main():
                     filastring += '-1'.rjust(4)
 
 
-            print(filastring)
+            # print(filastring)
 
-        print("--------------------------------------------------")
+        # print("--------------------------------------------------")
 
         # pinta origen
         screen.blit(personaje, [(TAM+MARGEN)*origen.getCol() +
