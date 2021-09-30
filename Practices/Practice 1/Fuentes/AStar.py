@@ -14,7 +14,8 @@ def AStar(map, start_slot, end_slot, path, heuristic):
     # We also create our discovered (open set) and checked (closed set).
     # Nodes that are discovered when looking for neighbor slots.
     discovered = set()
-    checked = set()    # Nodes that are checked and aren't the end node.
+    # Nodes that are checked and aren't the end node.
+    checked = set()
 
     # Add our start node to our discovered set.
     discovered.add(start_node)
