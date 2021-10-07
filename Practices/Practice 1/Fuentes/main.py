@@ -139,7 +139,7 @@ def main():
 
                         # llamar al A*
                         coste = AStar(
-                            mapa, origen, destino, camino, manhattan)
+                            mapa, origen, destino, camino, uniforme)
 
                         if coste == -1:
                             tkinter.messagebox.showwarning(
@@ -154,12 +154,13 @@ def main():
         # limpiar pantalla
         screen.fill(NEGRO)
         # pinta mapa
+
         for fil in range(mapa.getAlto()):
             filastring = ''
 
             for col in range(mapa.getAncho()):
 
-                # Por cada tick, pinta el mapa, y imprime en consola los caminos
+                # Por cada tick, pinta el mapa y pinta en azul las casillas exploradas, y imprime en consola los caminos
                 if mapa.getCelda(fil, col) == 2 and not primeraVez:
                     pygame.draw.rect(screen, BLANCO, [
                                      (TAM+MARGEN)*col+MARGEN, (TAM+MARGEN)*fil+MARGEN, TAM, TAM], 0)
@@ -187,9 +188,9 @@ def main():
                     filastring += '-1'.rjust(4)
 
 
-            # print(filastring)
+            print(filastring)
 
-        # print("--------------------------------------------------")
+        print("--------------------------------------------------")
 
         # pinta origen
         screen.blit(personaje, [(TAM+MARGEN)*origen.getCol() +
