@@ -15,8 +15,8 @@ def euclidea(actual, destino):
     return (dx * dx + dy * dy) ** (1/2)
 
 
-def euclidea2(actual, destino):
+def chebyshev(actual, destino):
     dx = abs(actual.getFila() - destino.getFila())
     dy = abs(actual.getCol() - destino.getCol())
 
-    return dx * dx + dy * dy
+    return max(dx, dy)

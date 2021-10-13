@@ -7,8 +7,8 @@ from Mapa import Mapa
 from AStar import AStar
 from heuristicas import uniforme
 from heuristicas import euclidea
-from heuristicas import euclidea2
 from heuristicas import manhattan
+from heuristicas import chebyshev
 from pygame.locals import *
 
 
@@ -139,7 +139,7 @@ def main():
 
                         # llamar al A*
                         coste = AStar(
-                            mapa, origen, destino, camino, euclidea2)
+                            mapa, origen, destino, camino, uniforme)
 
                         if coste == -1:
                             tkinter.messagebox.showwarning(
@@ -186,9 +186,9 @@ def main():
                 else:
                     filastring += '-1'.rjust(4)
 
-            print(filastring)
+            # print(filastring)
 
-        print("--------------------------------------------------")
+        # print("--------------------------------------------------")
 
         # pinta origen
         screen.blit(personaje, [(TAM+MARGEN)*origen.getCol() +
