@@ -138,8 +138,9 @@ def main():
                         camino = inic(mapa)
 
                         # llamar al A*
+                        # Para el profesor: para cambiar la heuristica, solo hay que cambiar 'manhattan' por 'uniforme' o el nombre de la euristica a usar al llamar a AStar.
                         coste = AStar(
-                            mapa, origen, destino, camino, uniforme)
+                            mapa, origen, destino, camino, manhattan)
 
                         if coste == -1:
                             tkinter.messagebox.showwarning(
