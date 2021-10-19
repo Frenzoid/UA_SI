@@ -13,9 +13,9 @@ from heuristicas import frioCaliente
 from pygame.locals import *
 
 
-MARGEN = 2
+MARGEN = 1
 MARGEN_INFERIOR = 60
-TAM = 10
+TAM = 1
 NEGRO = (0, 0, 0)
 BLANCO = (255, 255, 255)
 VERDE = (0, 255, 0)
