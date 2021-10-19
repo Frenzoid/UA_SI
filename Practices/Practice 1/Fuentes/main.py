@@ -13,9 +13,9 @@ from heuristicas import frioCaliente
 from pygame.locals import *
 
 
-MARGEN = 2
+MARGEN = 5
 MARGEN_INFERIOR = 60
-TAM = 6
+TAM = 15
 NEGRO = (0, 0, 0)
 BLANCO = (255, 255, 255)
 VERDE = (0, 255, 0)
@@ -141,7 +141,7 @@ def main():
                         # llamar al A*
                         # Para el profesor: para cambiar la heuristica, solo hay que cambiar 'manhattan' por 'uniforme' o el nombre de la euristica a usar al llamar a AStar.
                         coste = AStar(
-                            mapa, origen, destino, camino, uniforme)
+                            mapa, origen, destino, camino, chebyshev)
 
                         if coste == -1:
                             tkinter.messagebox.showwarning(
@@ -189,9 +189,9 @@ def main():
                 else:
                     filastring += '-1'.rjust(4)
 
-            print(filastring)
+            # print(filastring)
 
-        print("--------------------------------------------------")
+        # print("--------------------------------------------------")
 
         # pinta origen
         screen.blit(personaje, [(TAM+MARGEN)*origen.getCol() +
