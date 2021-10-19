@@ -20,3 +20,10 @@ def chebyshev(actual, destino):
     dy = abs(actual.getCol() - destino.getCol())
 
     return max(dx, dy)
+
+
+def frioCaliente(actual, destino):
+    dx = actual.getFila() + destino.getFila()
+    dy = actual.getCol() + destino.getCol()
+
+    return dx + dy

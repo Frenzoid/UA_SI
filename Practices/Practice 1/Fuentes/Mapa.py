@@ -36,6 +36,7 @@ class Mapa():
     def getOrigen(self):
         return self.origen
 
+    # Comprueba si unas coordendas estan dentro de los limites del mapa.
     def inBounds(self, fila, columna):
         if fila >= 0 and fila < self.alto and columna >= 0 and columna < self.ancho:
             return True
