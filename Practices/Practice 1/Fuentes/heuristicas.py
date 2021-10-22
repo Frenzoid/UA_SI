@@ -9,8 +9,8 @@ def manhattan(actual, destino):
 
 def euclidea(actual, destino):
 
-    dx = abs(actual.getFila() - destino.getFila())
-    dy = abs(actual.getCol() - destino.getCol())
+    dx = abs(actual.getFila() - destino.getFila()) ** 2
+    dy = abs(actual.getCol() - destino.getCol()) ** 2
 
     return (dx * dx + dy * dy) ** (1/2)
 
