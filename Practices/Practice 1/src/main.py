@@ -1,3 +1,5 @@
+# Elvi Mihai Sabau Sabau
+
 import pygame
 import tkinter
 import tkinter.filedialog
