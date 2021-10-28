@@ -22,9 +22,6 @@ def AStar(map, start_slot, end_slot, path, heuristic):
     # Add our start node to our discovered set.
     discovered.add(start_node)
 
-    # Start time (used for analysis)
-    start = time.time()
-
     # Time to explore and map the paths, while there are still discovered nodes to check, we shall continue.
     while discovered:
 
@@ -33,9 +30,6 @@ def AStar(map, start_slot, end_slot, path, heuristic):
 
         # If that that node is the end node...
         if current_best_node == end_node:
-
-            print(round(time.time() - start, 5))
-            print(len(checked))
 
             # Save f for later.
             f = current_best_node.f
