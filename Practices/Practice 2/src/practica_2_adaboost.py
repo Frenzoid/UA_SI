@@ -1422,13 +1422,15 @@ HTY = clasificar_conjunto(clasificadores, x_test, False)
 # Obtenemos la suma de la cantidad de errores.
 resultados = np.sum(HTY != y_test)
 
-error = len(x_test) / resultados
+error = resultados / len(x_test) * 100
 
+# Obtenemos el % de precisión.
+precision = 100 - error
 # Mostramos la precisión
 
 print("\nPrecisión: " + str(100 - error) + " %")
 
-"""Fantastico, el error es menor del 10% con el conjunto de tests, es justo lo que queremos.
+"""Fantastico, el error es menor del 30% con el conjunto de tests, es justo lo que queremos.
 
 # Clasificar imágenes propias.
 
